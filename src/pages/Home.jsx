@@ -64,6 +64,13 @@ const APPS = [
     icon: '🎮',
     accent: '#002E5D',
   },
+  {
+    path: '/perpetuity-practice',
+    title: 'Perpetuity Practice',
+    desc: '10-question quiz on perpetuity PV, rate, and payout — with hints and worked solutions',
+    icon: '♾️',
+    accent: '#002E5D',
+  },
 ]
 
 export default function Home() {
