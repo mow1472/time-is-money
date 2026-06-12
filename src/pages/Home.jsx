@@ -71,6 +71,13 @@ const APPS = [
     icon: '♾️',
     accent: '#002E5D',
   },
+  {
+    path: '/pv-retention-bonus',
+    title: 'TVM — Present Value: Retention Bonus',
+    desc: 'Discount a future $10,000 bonus to today\'s dollars using HP 10BII+, Excel, and formulas',
+    icon: '💼',
+    accent: '#1A3A5C',
+  },
 ]
 
 export default function Home() {

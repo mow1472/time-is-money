@@ -10,6 +10,7 @@ import TVMMonthlyPayment from './pages/TVMMonthlyPayment.jsx'
 import AnnuityProblemSolver from './pages/AnnuityProblemSolver.jsx'
 import WouldYouRather from './pages/WouldYouRather.jsx'
 import PerpetuityPractice from './pages/PerpetuityPractice.jsx'
+import PVRetentionBonus from './pages/PVRetentionBonus.jsx'
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/annuity-problem-solver" element={<AnnuityProblemSolver />} />
         <Route path="/would-you-rather" element={<WouldYouRather />} />
         <Route path="/perpetuity-practice" element={<PerpetuityPractice />} />
+        <Route path="/pv-retention-bonus" element={<PVRetentionBonus />} />
       </Routes>
     </HashRouter>
   )
