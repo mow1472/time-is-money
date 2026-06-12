@@ -1,0 +1,148 @@
+import { useState } from "react";
+
+const icons = {
+  "Interest Rate Names": (
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#002E5D" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="14" cy="14" r="5"/>
+      <circle cx="34" cy="34" r="5"/>
+      <line x1="10" y1="38" x2="38" y2="10"/>
+    </svg>
+  ),
+  "Compounding vs. Discounting": (
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#002E5D" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6,36 16,24 24,30 38,12"/>
+      <polyline points="32,12 38,12 38,18"/>
+    </svg>
+  ),
+  "Cash Flow Types": (
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#002E5D" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="24" cy="24" r="16"/>
+      <line x1="24" y1="14" x2="24" y2="16"/>
+      <line x1="24" y1="32" x2="24" y2="34"/>
+      <path d="M20 20 Q20 17 24 17 Q28 17 28 20.5 Q28 24 24 24 Q28 24 28 27.5 Q28 31 24 31 Q20 31 20 28"/>
+    </svg>
+  ),
+};
+
+const cards = [
+  {
+    title: "Interest Rate Names",
+    headers: ["Term", "Definition"],
+    rows: [
+      ["Discount Rate", "Used when finding present value"],
+      ["Required Rate of Return", "What an investor demands for risk"],
+      ["Nominal Rate", "Stated rate before inflation adjustment"],
+      ["Real Rate", "Nominal rate minus inflation"],
+      ["APR", "Annual rate before compounding adjustments"],
+    ],
+  },
+  {
+    title: "Compounding vs. Discounting",
+    headers: ["Concept", "Definition"],
+    rows: [
+      ["Simple Interest", "Earned only on the original principal"],
+      ["Compound Interest", "Earned on principal and prior interest"],
+      ["Compounding", "Moving cash flows forward in time (PV → FV)"],
+      ["Discounting", "Moving cash flows backward in time (FV → PV)"],
+      ["Sign Convention", "PV and FV must always have opposite signs"],
+    ],
+  },
+  {
+    title: "Cash Flow Types",
+    headers: ["Type", "Description"],
+    rows: [
+      ["Lump Sum", "Single payment at one point in time"],
+      ["Annuity", "Equal payments at regular intervals"],
+      ["Perpetuity", "Equal payments forever  ·  PV = PMT ÷ r"],
+      ["Growing Perpetuity", "Payments grow at rate g  ·  PV = PMT ÷ (r−g)"],
+      ["Uneven Cash Flows", "Different amounts each period"],
+    ],
+  },
+];
+
+function FlipCard({ card }) {
+  const [flipped, setFlipped] = useState(false);
+
+  const faceBase = {
+    position: "absolute",
+    top: 0, left: 0, right: 0, bottom: 0,
+    backfaceVisibility: "hidden",
+    WebkitBackfaceVisibility: "hidden",
+    background: "#B5E2FA",
+    borderRadius: 16,
+    border: "1px solid rgba(0,46,93,0.10)",
+    boxShadow: "0 4px 18px rgba(0,46,93,0.10)",
+  };
+
+  return (
+    <div
+      onClick={() => setFlipped(f => !f)}
+      style={{ perspective: "1200px", cursor: "pointer", height: 300 }}
+    >
+      <div style={{
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        transformStyle: "preserve-3d",
+        transition: "transform 0.55s cubic-bezier(0.45,0,0.55,1)",
+        transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+      }}>
+
+        <div style={{ ...faceBase, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 28 }}>
+          <div style={{ marginBottom: 16 }}>{icons[card.title]}</div>
+          <div style={{ fontFamily: "'Open Sans',Arial,sans-serif", fontWeight: 700, fontSize: 18, color: "#002E5D", textAlign: "center", lineHeight: 1.35 }}>
+            {card.title}
+          </div>
+          <div style={{ marginTop: 14, fontSize: 11, color: "#0d65c7", fontStyle: "italic", opacity: 0.75 }}>
+            click to reveal
+          </div>
+        </div>
+
+        <div style={{ ...faceBase, transform: "rotateY(180deg)", padding: "18px 16px", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+            <thead>
+              <tr style={{ borderBottom: "2px solid rgba(0,46,93,0.2)" }}>
+                {card.headers.map(h => (
+                  <th key={h} style={{ padding: "4px 8px 7px", textAlign: "left", color: "#002E5D", fontFamily: "'Open Sans',Arial,sans-serif", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {card.rows.map(([col1, col2], i) => (
+                <tr key={i} style={{ borderBottom: "1px solid rgba(0,46,93,0.09)" }}>
+                  <td style={{ padding: "6px 8px", fontWeight: 700, color: "#002E5D", fontFamily: "'Open Sans',Arial,sans-serif", verticalAlign: "top", width: "42%" }}>{col1}</td>
+                  <td style={{ padding: "6px 8px", color: "#334155", fontFamily: "Arial,sans-serif", verticalAlign: "top", lineHeight: 1.45 }}>{col2}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+export default function TVMFlipCards() {
+  return (
+    <div style={{ background: "#f0f4f8", padding: "32px 24px", fontFamily: "Arial,sans-serif" }}>
+      <div style={{ maxWidth: 780, margin: "0 auto" }}>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22, marginBottom: 22 }}>
+          {cards.slice(0, 2).map((card, i) => <FlipCard key={i} card={card} />)}
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ width: "calc(50% - 11px)" }}>
+            <FlipCard card={cards[2]} />
+          </div>
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: 28, fontSize: 10, color: "#c2c2ce" }}>
+          © 2026 Ernst & Young Foundation (US). All Rights Reserved.
+        </div>
+
+      </div>
+    </div>
+  );
+}
