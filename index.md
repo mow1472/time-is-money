@@ -7,6 +7,7 @@ Ask the AI agent any of the following:
 - **"deploy"** — commit and push all changes to GitHub
 - **"update"** — pull latest changes and resolve any merge conflicts
 - **"status"** — show what files have changed and what branch you're on
+- **"add artifcat"** - create a new path in the project, and add a link to the path on the main homepage
 
 ---
 
@@ -65,3 +66,11 @@ cd C:\Users\morga\Documents\github-stuff\time-is-money
 git status
 git branch
 ```
+
+---
+
+## add artifcat
+
+1. create a new jsx file in the src\pages directory for the new artifact.
+2. create the code for the artifact so it is a self contained component.
+3. add a route to the App.jsx to display and run the artifact.

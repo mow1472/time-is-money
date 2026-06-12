@@ -5,6 +5,7 @@ import FVAccordion from './pages/FVAccordion.jsx'
 import VocabFlipCards from './pages/VocabFlipCards.jsx'
 import HP10BCalcDisplay from './pages/HP10BCalcDisplay.jsx'
 import NCollegeFund from './pages/NCollegeFund.jsx'
+import TVMInterestRate from './pages/TVMInterestRate.jsx'
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/vocab-flipcards" element={<VocabFlipCards />} />
         <Route path="/hp10b" element={<HP10BCalcDisplay />} />
         <Route path="/n-college-fund" element={<NCollegeFund />} />
+        <Route path="/tvm-interest-rate" element={<TVMInterestRate />} />
       </Routes>
     </HashRouter>
   )

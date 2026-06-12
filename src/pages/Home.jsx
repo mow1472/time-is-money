@@ -36,6 +36,13 @@ const APPS = [
     icon: '🎓',
     accent: '#1A3A5C',
   },
+  {
+    path: '/tvm-interest-rate',
+    title: 'TVM — Interest Rate: Investment Return',
+    desc: 'Work backwards to find your annual return using HP 10BII+, Excel, and formulas',
+    icon: '📊',
+    accent: '#1A3A5C',
+  },
 ]
 
 export default function Home() {
