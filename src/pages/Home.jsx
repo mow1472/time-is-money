@@ -50,6 +50,13 @@ const APPS = [
     icon: '🏭',
     accent: '#1A3A5C',
   },
+  {
+    path: '/annuity-problem-solver',
+    title: 'Annuity Problem Solver',
+    desc: 'Step-by-step walkthrough for ordinary and annuity-due problems using HP 10bII+ or Excel',
+    icon: '🧮',
+    accent: '#002E5D',
+  },
 ]
 
 export default function Home() {

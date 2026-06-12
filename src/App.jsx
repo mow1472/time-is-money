@@ -7,6 +7,7 @@ import HP10BCalcDisplay from './pages/HP10BCalcDisplay.jsx'
 import NCollegeFund from './pages/NCollegeFund.jsx'
 import TVMInterestRate from './pages/TVMInterestRate.jsx'
 import TVMMonthlyPayment from './pages/TVMMonthlyPayment.jsx'
+import AnnuityProblemSolver from './pages/AnnuityProblemSolver.jsx'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/n-college-fund" element={<NCollegeFund />} />
         <Route path="/tvm-interest-rate" element={<TVMInterestRate />} />
         <Route path="/tvm-monthly-payment" element={<TVMMonthlyPayment />} />
+        <Route path="/annuity-problem-solver" element={<AnnuityProblemSolver />} />
       </Routes>
     </HashRouter>
   )
