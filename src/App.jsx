@@ -6,6 +6,7 @@ import VocabFlipCards from './pages/VocabFlipCards.jsx'
 import HP10BCalcDisplay from './pages/HP10BCalcDisplay.jsx'
 import NCollegeFund from './pages/NCollegeFund.jsx'
 import TVMInterestRate from './pages/TVMInterestRate.jsx'
+import TVMMonthlyPayment from './pages/TVMMonthlyPayment.jsx'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/hp10b" element={<HP10BCalcDisplay />} />
         <Route path="/n-college-fund" element={<NCollegeFund />} />
         <Route path="/tvm-interest-rate" element={<TVMInterestRate />} />
+        <Route path="/tvm-monthly-payment" element={<TVMMonthlyPayment />} />
       </Routes>
     </HashRouter>
   )

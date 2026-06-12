@@ -43,6 +43,13 @@ const APPS = [
     icon: '📊',
     accent: '#1A3A5C',
   },
+  {
+    path: '/tvm-monthly-payment',
+    title: 'TVM — Monthly Payment: Equipment Financing',
+    desc: 'Calculate the monthly payment on a business equipment loan using HP 10BII+, Excel, and formulas',
+    icon: '🏭',
+    accent: '#1A3A5C',
+  },
 ]
 
 export default function Home() {
