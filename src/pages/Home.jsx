@@ -57,6 +57,13 @@ const APPS = [
     icon: '🧮',
     accent: '#002E5D',
   },
+  {
+    path: '/would-you-rather',
+    title: 'Would You Rather?',
+    desc: '15-question TVM game — calculate both sides and pick the better financial choice',
+    icon: '🎮',
+    accent: '#002E5D',
+  },
 ]
 
 export default function Home() {

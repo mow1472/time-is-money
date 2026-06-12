@@ -8,6 +8,7 @@ import NCollegeFund from './pages/NCollegeFund.jsx'
 import TVMInterestRate from './pages/TVMInterestRate.jsx'
 import TVMMonthlyPayment from './pages/TVMMonthlyPayment.jsx'
 import AnnuityProblemSolver from './pages/AnnuityProblemSolver.jsx'
+import WouldYouRather from './pages/WouldYouRather.jsx'
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/tvm-interest-rate" element={<TVMInterestRate />} />
         <Route path="/tvm-monthly-payment" element={<TVMMonthlyPayment />} />
         <Route path="/annuity-problem-solver" element={<AnnuityProblemSolver />} />
+        <Route path="/would-you-rather" element={<WouldYouRather />} />
       </Routes>
     </HashRouter>
   )
