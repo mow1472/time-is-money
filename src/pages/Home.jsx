@@ -29,6 +29,13 @@ const APPS = [
     icon: '🔢',
     accent: '#16306b',
   },
+  {
+    path: '/n-college-fund',
+    title: 'College Fund — Solving for N',
+    desc: 'How long to save $50,000 with a lump sum and annual contributions',
+    icon: '🎓',
+    accent: '#1A3A5C',
+  },
 ]
 
 export default function Home() {
