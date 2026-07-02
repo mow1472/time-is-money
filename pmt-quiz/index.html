@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solving for Payments (PMT) — Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#002E5D;
+    --navy2:#0a3d70;
+    --blue:#2f6feb;
+    --yellow:#FFE600;
+    --gold:#F2BA05;
+    --amber-bg:#FFF9E0;
+    --amber-border:#F3D77B;
+    --amber-ink:#7a5c00;
+    --green-bg:#E8F7EC;
+    --green-border:#9EDBB0;
+    --green-ink:#1a7a3c;
+    --gray-bg:#F4F6F8;
+    --ink:#1a2733;
+    --gray:#5a6470;
+    --line:#dde3e9;
+    --sans:'Open Sans', Arial, sans-serif;
+    --mono:'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:var(--sans);
+    background:#e9edf1;
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+    padding:40px 16px;
+    min-height:100vh;
+  }
+  .wrap{ width:100%; max-width:600px; }
+
+  .frame{
+    background:#fff;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 18px 40px -18px rgba(0,46,93,.5);
+    border:1px solid #e2e6ea;
+  }
+
+  /* header */
+  .bar{
+    background:var(--navy);
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+  }
+  .bar h1{
+    color:#fff;
+    font-size:15.5px;
+    font-weight:800;
+    letter-spacing:.1px;
+  }
+  .bar-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-shrink:0;
+  }
+  .dots{ display:flex; gap:5px; }
+  .dot{
+    width:7px; height:7px;
+    border-radius:50%;
+    background:rgba(255,255,255,.3);
+  }
+  .dot.active{ background:var(--yellow); }
+  .dot.done{ background:rgba(255,255,255,.65); }
+  .q-pill{
+    font-family:var(--mono);
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--navy);
+    background:var(--yellow);
+    padding:4px 10px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+
+  .body{ padding:24px 24px 26px; }
+
+  /* question row */
+  .qrow{
+    display:flex;
+    gap:12px;
+    margin-bottom:20px;
+  }
+  .qnum{
+    flex-shrink:0;
+    width:26px; height:26px;
+    border-radius:50%;
+    background:var(--navy);
+    color:#fff;
+    font-weight:800;
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:1px;
+  }
+  .qtext{
+    font-size:14.5px;
+    line-height:1.55;
+    color:#1e2b3a;
+  }
+
+  /* answer row */
+  .answer-label{
+    font-size:13px;
+    font-weight:700;
+    color:var(--navy);
+    margin-bottom:8px;
+    display:block;
+  }
+  .answer-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .answer-row input{
+    flex:1;
+    max-width:220px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:11px 14px;
+    font-family:var(--mono);
+    font-size:14.5px;
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s, box-shadow .15s;
+    background:#fff;
+  }
+  .answer-row input:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px rgba(47,111,235,.15);
+  }
+  .answer-row input:disabled{ background:var(--gray-bg); color:var(--gray); }
+
+  button{ font-family:var(--sans); cursor:pointer; border:none; }
+  .check-btn{
+    background:var(--blue);
+    color:#fff;
+    font-weight:700;
+    font-size:14px;
+    padding:0 22px;
+    border-radius:8px;
+    transition:background .15s;
+  }
+  .check-btn:hover{ background:#2159c9; }
+  .check-btn:disabled{ background:#c6cdd6; cursor:not-allowed; }
+
+  .next-btn{
+    background:var(--navy);
+    color:#fff;
+    font-weight:700;
+    font-size:14px;
+    padding:11px 22px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    transition:background .15s;
+  }
+  .next-btn:hover{ background:#001f42; }
+
+  /* feedback callouts */
+  .feedback{ margin-bottom:14px; }
+  .callout{
+    border-radius:8px;
+    padding:12px 14px;
+    display:flex;
+    gap:10px;
+    font-size:13px;
+    line-height:1.55;
+  }
+  .callout .icon{
+    flex-shrink:0;
+    width:18px; height:18px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px;
+    font-weight:800;
+    margin-top:1px;
+  }
+  .callout.amber{ background:var(--amber-bg); border:1px solid var(--amber-border); color:var(--amber-ink); }
+  .callout.amber .icon{ background:var(--gold); color:#5a4200; }
+  .callout.green{ background:var(--green-bg); border:1px solid var(--green-border); color:var(--green-ink); }
+  .callout.green .icon{ background:var(--green-ink); color:#fff; }
+  .callout.gray{ background:var(--gray-bg); border:1px solid var(--line); color:var(--navy); }
+  .callout.gray .icon{ background:var(--navy); color:#fff; }
+  .callout b{ font-weight:800; }
+  .callout .formula{ font-family:var(--mono); font-size:12px; color:var(--gray); margin-top:5px; }
+
+  /* format note - chips */
+  .format-note{
+    background:var(--amber-bg);
+    border:1px solid var(--amber-border);
+    border-radius:8px;
+    padding:12px 14px;
+    display:flex;
+    gap:10px;
+    font-size:12.5px;
+    line-height:1.6;
+    color:var(--amber-ink);
+  }
+  .format-note .icon{
+    flex-shrink:0;
+    width:18px; height:18px;
+    border-radius:50%;
+    background:var(--gold);
+    color:#5a4200;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px;
+    font-weight:800;
+    margin-top:1px;
+  }
+  .chip{
+    font-family:var(--mono);
+    background:#fff;
+    border:1px solid var(--amber-border);
+    border-radius:5px;
+    padding:1px 6px;
+    font-size:12px;
+    color:#5a4200;
+    white-space:nowrap;
+  }
+
+  .reveal-input-row{
+    display:flex;
+    gap:10px;
+    margin-top:16px;
+  }
+
+  /* choice screen */
+  .choice{ text-align:center; padding:14px 4px 4px; }
+  .choice .badge{
+    width:52px; height:52px;
+    border-radius:50%;
+    background:var(--green-bg);
+    color:var(--green-ink);
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px;
+    margin:0 auto 16px;
+  }
+  .choice h3{ font-size:18px; color:var(--navy); margin-bottom:8px; }
+  .choice p{ color:var(--gray); font-size:13.5px; margin-bottom:20px; }
+  .choice-buttons{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .btn-outline{
+    padding:11px 20px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:#fff;
+    font-weight:700;
+    font-size:13.5px;
+    color:var(--navy);
+  }
+  .btn-outline:hover{ background:var(--gray-bg); }
+  .btn-fill{
+    padding:11px 20px;
+    border-radius:8px;
+    background:var(--blue);
+    color:#fff;
+    font-weight:700;
+    font-size:13.5px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .btn-fill:hover{ background:#2159c9; }
+
+  /* finish screen */
+  .finish{ text-align:center; padding:22px 8px 6px; }
+  .finish .badge{
+    width:60px; height:60px;
+    border-radius:50%;
+    background:var(--green-bg);
+    color:var(--green-ink);
+    display:flex; align-items:center; justify-content:center;
+    font-size:28px;
+    margin:0 auto 18px;
+  }
+  .finish h1{ font-size:20px; color:var(--navy); margin-bottom:8px; }
+  .finish p{ color:var(--gray); font-size:14px; margin-bottom:22px; }
+
+  .hidden{ display:none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="frame">
+
+    <div class="bar">
+      <h1>Solving for Payments (PMT)</h1>
+      <div class="bar-right">
+        <div class="dots" id="dots"></div>
+        <span class="q-pill" id="qPill">Q1 of 5</span>
+      </div>
+    </div>
+
+    <div class="body">
+
+      <!-- QUIZ SCREEN -->
+      <div id="quizScreen">
+        <div class="qrow">
+          <div class="qnum" id="qNum">1</div>
+          <div class="qtext" id="questionText"></div>
+        </div>
+
+        <div id="answerForm">
+          <label class="answer-label">Payment amount:</label>
+          <div class="answer-row">
+            <input type="text" id="userInput" placeholder="$0.00" autocomplete="off">
+            <button type="button" class="check-btn" id="submitBtn" onclick="handleCheck()">Check</button>
+          </div>
+
+          <div class="feedback" id="feedback"></div>
+
+          <div class="format-note" id="formatNote">
+            <span class="icon">!</span>
+            <span>Answers accepted: <span class="chip" id="chip1">$34,257.82</span>, <span class="chip" id="chip2">34,257.82</span>, or <span class="chip" id="chip3">34257.82</span> — the dollar sign and commas are optional.</span>
+          </div>
+
+          <div id="nextWrap" class="hidden" style="margin-top:16px;">
+            <button type="button" class="next-btn" id="nextBtn" onclick="advanceToNextStep()">Next Problem →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHOICE SCREEN -->
+      <div id="choiceScreen" class="choice hidden">
+        <div class="badge">✓</div>
+        <h3>Required Concepts Mastered!</h3>
+        <p>Would you like to finish here, or work through 3 more practice problems?</p>
+        <div class="choice-buttons">
+          <button class="btn-outline" id="finishNowBtn">Finish Now</button>
+          <button class="btn-fill" id="continueBtn">Continue Practice →</button>
+        </div>
+      </div>
+
+      <!-- FINISH SCREEN -->
+      <div id="finishScreen" class="finish hidden">
+        <div class="badge">🧮</div>
+        <h1>Frequency Mastery Complete!</h1>
+        <p>Excellent work! You've successfully finished this module.</p>
+        <button class="next-btn" id="restartBtn" style="margin:0 auto;">↺ Restart Module</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    text: "A client wants to save $30,000 for a car in 5 years. If the account earns 6% APR compounded monthly, what equal monthly payment must be deposited at the end of each month?",
+    answer: 429.98,
+    hint1: "Because payments are monthly, adjust your variables: r = 0.06 / 12 and n = 5 × 12.",
+    hint2: "Calculation: 30,000 / [((1 + 0.005)^60 − 1) / 0.005]"
+  },
+  {
+    text: "A homeowner is planning a renovation that will cost $15,000 in 3 years. If the account earns 4% APR compounded semi-annually, what equal payment must be made every 6 months to reach the goal?",
+    answer: 2377.89,
+    hint1: "Adjust for semi-annual frequency: divide the interest rate by 2 and multiply years by 2.",
+    hint2: "Calculation: 15,000 / [((1 + 0.02)^6 − 1) / 0.02]"
+  },
+  {
+    text: "Practice: A client wants to become a millionaire. With 40 years until retirement and an 8% annual return, how much must be invested at the end of each year to reach $1,000,000?",
+    answer: 3860.16,
+    hint1: "Since this is annual, no adjustments are needed: r = 0.08 and n = 40.",
+    hint2: "Calculation: 1,000,000 / [((1.08)^40 − 1) / 0.08]"
+  },
+  {
+    text: "Practice: A client wants to save $500,000 in 25 years by making monthly deposits at 9% APR compounded monthly. What is the required monthly payment?",
+    answer: 445.98,
+    hint1: "Use r = 0.09 / 12 = 0.0075 and n = 25 × 12 = 300.",
+    hint2: "Calculation: 500,000 / [((1.0075)^300 − 1) / 0.0075]"
+  },
+  {
+    text: "Practice: A business needs to replace a machine in 10 years at a cost of $50,000. If they earn 6% on their sinking fund, compounded annually, how much should they set aside annually?",
+    answer: 3793.40,
+    hint1: "Standard annual PMT from FV formula applies here.",
+    hint2: "Calculation: 50,000 / [((1.06)^10 − 1) / 0.06]"
+  }
+];
+
+let idx = 0;
+let attempts = 0;
+let status = 'idle'; // idle | wrong | correct | reveal-wait
+
+const quizScreen = document.getElementById('quizScreen');
+const choiceScreen = document.getElementById('choiceScreen');
+const finishScreen = document.getElementById('finishScreen');
+const qNum = document.getElementById('qNum');
+const questionText = document.getElementById('questionText');
+const userInput = document.getElementById('userInput');
+const feedback = document.getElementById('feedback');
+const submitBtn = document.getElementById('submitBtn');
+const nextWrap = document.getElementById('nextWrap');
+const qPill = document.getElementById('qPill');
+const dotsEl = document.getElementById('dots');
+const formatNote = document.getElementById('formatNote');
+
+function renderDots(){
+  dotsEl.innerHTML = '';
+  for(let i=0;i<questions.length;i++){
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === idx ? ' active' : (i < idx ? ' done' : ''));
+    dotsEl.appendChild(d);
+  }
+}
+
+function renderQuestion(){
+  const q = questions[idx];
+  qNum.textContent = idx+1;
+  questionText.textContent = q.text;
+  qPill.textContent = `Q${idx+1} of ${questions.length}`;
+  renderDots();
+  userInput.value = '';
+  userInput.disabled = false;
+  submitBtn.classList.remove('hidden');
+  submitBtn.textContent = 'Check';
+  nextWrap.classList.add('hidden');
+  formatNote.classList.remove('hidden');
+  feedback.innerHTML = '';
+  attempts = 0;
+  status = 'idle';
+  userInput.focus();
+}
+
+function parseVal(raw){
+  const cleaned = raw.replace(/[^0-9.]/g,'');
+  return parseFloat(cleaned);
+}
+
+function handleCheck(){
+  if(userInput.value.trim() === '') return;
+
+  if(status === 'reveal-wait'){
+    const q = questions[idx];
+    const typed = parseVal(userInput.value);
+    if(!isNaN(typed) && Math.abs(typed - q.answer) <= 0.01){
+      advanceToNextStep();
+    } else {
+      const box = feedback.querySelector('.callout');
+      if(box) box.querySelector('span:last-child').innerHTML = `<b>Not quite.</b> Type the exact answer shown above to continue.<div class="formula">PMT = FV / [((1 + r)^n − 1) / r]</div>`;
+    }
+    return;
+  }
+
+  if(status === 'correct') return;
+
+  const val = parseVal(userInput.value);
+  if(isNaN(val)) return;
+  const q = questions[idx];
+
+  if(Math.abs(val - q.answer) <= 1.00){
+    status = 'correct';
+    userInput.disabled = true;
+    feedback.innerHTML = `
+      <div class="callout green">
+        <span class="icon">✓</span>
+        <span><b>Correct!</b> Your calculation is within the accepted rounding margin.</span>
+      </div>`;
+    submitBtn.classList.add('hidden');
+    nextWrap.classList.remove('hidden');
+  } else {
+    attempts++;
+    if(attempts >= 3){
+      status = 'reveal-wait';
+      const fmtAnswer = q.answer.toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+      feedback.innerHTML = `
+        <div class="callout gray">
+          <span class="icon">i</span>
+          <span><b>The answer is $${fmtAnswer}.</b>
+          <div class="formula">PMT = FV / [((1 + r)^n − 1) / r]</div>
+          <div style="margin-top:6px; font-weight:700; color:var(--navy);">Type this amount above and select Check to continue.</div></span>
+        </div>`;
+      userInput.value = '';
+      userInput.focus();
+    } else {
+      status = 'wrong';
+      const hint = attempts === 1 ? q.hint1 : q.hint2;
+      feedback.innerHTML = `
+        <div class="callout amber">
+          <span class="icon">!</span>
+          <span><b>Check your frequency adjustments.</b> (Attempt ${attempts}/3)
+          <div style="margin-top:4px; font-style:italic;">Hint: ${hint}</div></span>
+        </div>`;
+    }
+  }
+}
+
+userInput.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    handleCheck();
+  }
+});
+
+function advanceToNextStep(){
+  if(idx === 1){
+    quizScreen.classList.add('hidden');
+    choiceScreen.classList.remove('hidden');
+    return;
+  }
+  if(idx < questions.length - 1){
+    idx++;
+    renderQuestion();
+  } else {
+    showFinish();
+  }
+}
+
+document.getElementById('finishNowBtn').addEventListener('click', showFinish);
+document.getElementById('continueBtn').addEventListener('click', () => {
+  choiceScreen.classList.add('hidden');
+  quizScreen.classList.remove('hidden');
+  idx = 2;
+  renderQuestion();
+});
+
+function showFinish(){
+  quizScreen.classList.add('hidden');
+  choiceScreen.classList.add('hidden');
+  finishScreen.classList.remove('hidden');
+  qPill.textContent = 'Complete';
+  dotsEl.innerHTML = '';
+  for(let i=0;i<questions.length;i++){
+    const d = document.createElement('div');
+    d.className = 'dot done';
+    dotsEl.appendChild(d);
+  }
+}
+
+document.getElementById('restartBtn').addEventListener('click', () => {
+  idx = 0;
+  finishScreen.classList.add('hidden');
+  quizScreen.classList.remove('hidden');
+  renderQuestion();
+});
+
+renderQuestion();
+</script>
+</body>
+</html>
